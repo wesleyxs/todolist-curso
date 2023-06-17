@@ -1,11 +1,12 @@
+require('dotenv').config();
 const express = require('express')
-const app = express()
-//configuração do path responsavel por lincar meu css pt1
 const path = require("path")
 const routes = require('./routes/routes')
-const mongoose = require ('mongoose')
+const connectToDb = require("./database/db")
 
-
+connectToDb();
+const app = express();
+const port = process.env.PORT;
 
 //configuração da extenção ejs
 // ir para o site npm ejs e instalar via cmd
@@ -19,14 +20,8 @@ app.use(routes)
 
 
 //configuração da porta do s ervidor 
-const PORT = 8081
-app.listen(PORT, ()=>{
-    console.log("servidor no ar");
+
+app.listen(port, ()=>{
+    console.log("servidor no ar ");
 })
 
-mongoose.Promise = global.Promise;
-mongoose.connect("mongodb://localhost/todolist").then(() =>{
-    console.log("conectado ao mongo")
-}).catch((err) =>{
-console.log("erro" +err)
-})
